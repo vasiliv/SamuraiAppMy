@@ -11,7 +11,7 @@ namespace SamuraiApp.Data
     public class SamuraiContext : DbContext
     {
         private string connectionString = "server=(localdb)\\MSSQLLocalDB;database=SamuraiAppDataMy;Trusted_Connection=true";
-        public SamuraiContext(DbContextOptions<SamuraiContext> options) : base(options)
+        public SamuraiContext() 
         {
 
         }
