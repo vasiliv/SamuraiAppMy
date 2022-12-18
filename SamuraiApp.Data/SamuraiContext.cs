@@ -26,11 +26,11 @@ namespace SamuraiApp.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Samurai>()
-                .HasMany(s => s.Battles)
-                .WithMany(b => b.Samurais)
+                .HasMany(s => s.Battles) /*Battles property of the Samurai class*/ 
+                .WithMany(b => b.Samurais) /*Samurais property of the Battle class*/
                 .UsingEntity<BattleSamurai>
-                    (bs => bs.HasOne<Battle>().WithMany(),
-                     bs => bs.HasOne<Samurai>().WithMany())
+                    (bs => bs.HasOne<Battle>().WithMany(), /*bs or battlesamurai has one-to-many relationship with Battle*/
+                     bs => bs.HasOne<Samurai>().WithMany()) /*bs or battlesamurai has one-to-many relationship with Samurai*/
                 .Property(bs => bs.DateJoined)
                 .HasDefaultValueSql("getdate()");
         }
