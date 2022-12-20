@@ -21,7 +21,9 @@ namespace SamuraiApp.Data
         //public DbSet<BattleSamurai> BattleSamurais { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(connectionString);
+            optionsBuilder.UseSqlServer(connectionString)
+                // add logger
+                .LogTo(Console.WriteLine);
             base.OnConfiguring(optionsBuilder);
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -13,8 +13,9 @@ namespace SamuraiApp.UI
         {
             _context.Database.EnsureCreated();
             //AddSamurai();
-            AddSamurais("Lile", "Ana");
-            GetSamurais();
+            //AddSamurais("Lile", "Ana");
+            AddVariousTypes();
+            //GetSamurais();
         }
         private static void AddSamurai()
         {
@@ -28,6 +29,16 @@ namespace SamuraiApp.UI
             {
                 _context.Samurais.Add(new Samurai { Name = name});                
             }
+            _context.SaveChanges();
+        }
+        private static void AddVariousTypes()
+        {
+            _context.Samurais.AddRange( 
+                new Samurai { Name = "Michael"},
+                new Samurai { Name = "Koby" });
+            _context.Battles.AddRange(
+                new Battle { Name = "Kagemusha" },
+                new Battle { Name = "Didgori" });
             _context.SaveChanges();
         }
         private static void GetSamurais()
