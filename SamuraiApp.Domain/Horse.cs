@@ -10,7 +10,7 @@ namespace SamuraiApp.Domain
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        //one-to-one relationship
+        //one-to-one relationship (dependent on Samurai)
         public int SamuraiId { get; set; }
     }
 }
