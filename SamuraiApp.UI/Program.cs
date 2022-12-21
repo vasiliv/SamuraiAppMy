@@ -1,4 +1,5 @@
-﻿using SamuraiApp.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using SamuraiApp.Data;
 using SamuraiApp.Domain;
 using System;
 using System.Linq;
@@ -48,6 +49,10 @@ namespace SamuraiApp.UI
             {
                 Console.WriteLine(item.Name);
             }
+        }
+        private static void QueryFilters()
+        {
+            var query = _context.Samurais.Where(s => EF.Functions.Like(s.Name, "J%")).ToList();
         }
     }
 }
