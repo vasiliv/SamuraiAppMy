@@ -15,7 +15,9 @@ namespace SamuraiApp.UI
             _context.Database.EnsureCreated();
             //AddSamurai();
             //AddSamurais("Lile", "Ana");
-            AddVariousTypes();
+            //AddVariousTypes();
+            //RetrieveAndUpdateSamurai();
+            RetrieveAndUpdateMultipleSamurais();
             //GetSamurais();
         }
         private static void AddSamurai()
@@ -54,12 +56,24 @@ namespace SamuraiApp.UI
         {
             var query = _context.Samurais.Where(s => EF.Functions.Like(s.Name, "J%")).ToList();
         }
-        public static void QueryAggregates()        {
-            
+        public static void QueryAggregates() 
+        {            
             //var samurai = _context.Samurais.FirstOrDefault(s => s.Name == "Sampson");
             //var samurai = _context.Samurais.FirstOrDefault(s => s.Id == 2);
             //searches by primary key
             var samurai = _context.Samurais.Find(2);
+        }
+        public static void RetrieveAndUpdateSamurai()
+        {
+            var samurai = _context.Samurais.FirstOrDefault(s => s.Name == "Petre");
+            samurai.Name += " San";
+            _context.SaveChanges();
+        }
+        public static void RetrieveAndUpdateMultipleSamurais()
+        {
+            var samurais = _context.Samurais.Skip(2).Take(3).ToList();
+            samurais.ForEach(s => s.Name += " San") ;
+            _context.SaveChanges();
         }
     }
 }
