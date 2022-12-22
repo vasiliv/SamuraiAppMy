@@ -10,7 +10,7 @@ namespace SamuraiApp.UI
     public class Program
     {
         private static SamuraiContext _context = new SamuraiContext();
-        
+
         public static void Main(string[] args)
         {
             _context.Database.EnsureCreated();
@@ -19,12 +19,16 @@ namespace SamuraiApp.UI
             //AddVariousTypes();
             //RetrieveAndUpdateSamurai();
             //RetrieveAndUpdateMultipleSamurais();
-            QueryAndUpdateBattlesDisconnected();
+            //QueryAndUpdateBattlesDisconnected();
+            //InsertNewSamuraiWithQuote();
+            //AddQuotesToExistingQuoteWhileTracked();
+            //AddQuoteToExistingSamuraiNotTracked(5);
+            Simpler_AddQuoteToExistingSamuraiNotTracked(6);
             //GetSamurais();
         }
         private static void AddSamurai()
         {
-            var samurai = new Samurai { Name = "Julie"};
+            var samurai = new Samurai { Name = "Julie" };
             _context.Samurais.Add(samurai);
             _context.SaveChanges();
         }
@@ -32,14 +36,14 @@ namespace SamuraiApp.UI
         {
             foreach (var name in names)
             {
-                _context.Samurais.Add(new Samurai { Name = name});                
+                _context.Samurais.Add(new Samurai { Name = name });
             }
             _context.SaveChanges();
         }
         private static void AddVariousTypes()
         {
-            _context.Samurais.AddRange( 
-                new Samurai { Name = "Michael"},
+            _context.Samurais.AddRange(
+                new Samurai { Name = "Michael" },
                 new Samurai { Name = "Koby" });
             _context.Battles.AddRange(
                 new Battle { Name = "Kagemusha" },
@@ -58,8 +62,8 @@ namespace SamuraiApp.UI
         {
             var query = _context.Samurais.Where(s => EF.Functions.Like(s.Name, "J%")).ToList();
         }
-        public static void QueryAggregates() 
-        {            
+        public static void QueryAggregates()
+        {
             //var samurai = _context.Samurais.FirstOrDefault(s => s.Name == "Sampson");
             //var samurai = _context.Samurais.FirstOrDefault(s => s.Id == 2);
             //searches by primary key
@@ -74,7 +78,7 @@ namespace SamuraiApp.UI
         private static void RetrieveAndUpdateMultipleSamurais()
         {
             var samurais = _context.Samurais.Skip(2).Take(3).ToList();
-            samurais.ForEach(s => s.Name += " San") ;
+            samurais.ForEach(s => s.Name += " San");
             _context.SaveChanges();
         }
         private static void RetrieveAndDeleteSamurai()
@@ -90,10 +94,10 @@ namespace SamuraiApp.UI
             {
                 disconnectedBattles = context1.Battles.ToList();
             }
-            var firstBattle = disconnectedBattles.Find(b => b.BattleId ==1);
+            var firstBattle = disconnectedBattles.Find(b => b.BattleId == 1);
             var secondBattle = disconnectedBattles.Find(b => b.BattleId == 2);
 
-            firstBattle.StartDate = new DateTime(1115, 10, 25 );
+            firstBattle.StartDate = new DateTime(1115, 10, 25);
             firstBattle.EndDate = new DateTime(1115, 10, 26);
 
             secondBattle.StartDate = new DateTime(1129, 10, 13);
@@ -104,6 +108,44 @@ namespace SamuraiApp.UI
                 context2.Update(firstBattle);
                 context2.Update(secondBattle);
                 context2.SaveChanges();
+            }
+        }
+        private static void InsertNewSamuraiWithQuote()
+        {
+            var samurai = new Samurai
+            {
+                Name = "Takeda",
+                Quotes = new List<Quote>
+                { 
+                    new Quote() { Text = "rac mogiva davitao yvela sheni tavitao" }
+                }
+            };
+            _context.Add(samurai);
+            _context.SaveChanges();
+        }
+        private static void AddQuotesToExistingQuoteWhileTracked()
+        {
+            var samurai = _context.Samurais.Find(3);
+            samurai.Quotes.Add(new Quote() { Text = "rac ar gergeba ar shegergeba" });
+            _context.SaveChanges();
+        }
+        private static void AddQuoteToExistingSamuraiNotTracked(int samuraiId)
+        {
+            var samurai = _context.Samurais.Find(samuraiId);
+            samurai.Quotes.Add(new Quote() { Text = "kvici gvarze xtiso" });
+            using (var context = new SamuraiContext())
+            {
+                context.Samurais.Update(samurai);
+                context.SaveChanges();
+            }
+        }
+        private static void Simpler_AddQuoteToExistingSamuraiNotTracked(int samuraiId)
+        {
+            var quote = new Quote { Text = "chits aprena undoda, xelis aqnevas elodebodao", SamuraiId = samuraiId };
+            using (var context = new SamuraiContext())
+            {
+                context.Quote.Add(quote);
+                context.SaveChanges();
             }
         }
     }
