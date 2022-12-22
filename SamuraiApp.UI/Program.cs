@@ -23,7 +23,8 @@ namespace SamuraiApp.UI
             //InsertNewSamuraiWithQuote();
             //AddQuotesToExistingQuoteWhileTracked();
             //AddQuoteToExistingSamuraiNotTracked(5);
-            Simpler_AddQuoteToExistingSamuraiNotTracked(6);
+            //Simpler_AddQuoteToExistingSamuraiNotTracked(6);
+            EagerLoadSamuraiWithQuotes();
             //GetSamurais();
         }
         private static void AddSamurai()
@@ -147,6 +148,10 @@ namespace SamuraiApp.UI
                 context.Quote.Add(quote);
                 context.SaveChanges();
             }
+        }
+        private static void EagerLoadSamuraiWithQuotes()
+        {
+            var samuraiWithQuotes = _context.Samurais.Include(s => s.Quotes).ToList();
         }
     }
 }
