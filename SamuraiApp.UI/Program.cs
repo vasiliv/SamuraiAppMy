@@ -69,10 +69,16 @@ namespace SamuraiApp.UI
             samurai.Name += " San";
             _context.SaveChanges();
         }
-        public static void RetrieveAndUpdateMultipleSamurais()
+        private static void RetrieveAndUpdateMultipleSamurais()
         {
             var samurais = _context.Samurais.Skip(2).Take(3).ToList();
             samurais.ForEach(s => s.Name += " San") ;
+            _context.SaveChanges();
+        }
+        private static void RetrieveAndDeleteSamurai()
+        {
+            var samurai = _context.Samurais.Find(2);
+            _context.Samurais.Remove(samurai);
             _context.SaveChanges();
         }
     }
