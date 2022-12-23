@@ -153,5 +153,10 @@ namespace SamuraiApp.UI
         {
             var samuraiWithQuotes = _context.Samurais.Include(s => s.Quotes).ToList();
         }
+        private static void ProjectSamuraisWithQuotes()
+        {
+            //using anonymous types
+            var samuraisWithQuotes = _context.Samurais.Select(s => new {s.Id, s.Name, s.Quotes, NumberOfQuotes = s.Quotes.Count() }).ToList();
+        }
     }
 }
